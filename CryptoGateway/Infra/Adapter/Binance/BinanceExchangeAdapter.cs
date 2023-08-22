@@ -1,8 +1,8 @@
 ﻿using CryptoGateway.Shared;
 
-namespace CryptoGateway.Adapter.Binance;
+namespace CryptoGateway.Infra.Adapter.Binance;
 
-public sealed class BinanceExchangeAdapter : IExchangeAdapter<BinanceCryptoRequest>
+public sealed class BinanceExchangeAdapter : IExchangeApi
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -10,18 +10,19 @@ public sealed class BinanceExchangeAdapter : IExchangeAdapter<BinanceCryptoReque
     {
         _httpClientFactory = httpClientFactory;
     }
+    
+    public static string BaseUrl => "https://api.binance.com";
 
-    public async Task<ExchangeResponse> GetCryptoPriceAsync(BinanceCryptoRequest request)
+    public async Task<ExchangeResponse> GetCryptoPriceAsync(string cryptoSymbol)
     {
         using var client = _httpClientFactory.CreateClient();
         
-        var uri = new Uri($"https://api.binance.com/api/v3/ticker/24hr?symbol={request.CryptoSymbol}");
+        var uri = new Uri($"{BaseUrl}/api/v3/ticker/24hr?symbol={cryptoSymbol}");
         
         var crypto = await client.GetFromJsonAsync<BinanceCryptoResponse>(uri);
        
         return new ExchangeResponse(
-            request.Name,
-            crypto?.Symbol ?? request.CryptoSymbol,
+            crypto?.Symbol ?? cryptoSymbol,
             crypto?.AskPrice ?? 0M);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using CryptoGateway.Shared;
 
-namespace CryptoGateway.Adapter.Kucoin;
+namespace CryptoGateway.Infra.Adapter.Kucoin;
 
-public sealed class KucoinExchangeAdapter : IExchangeAdapter<KucoinCryptoRequest>
+public sealed class KucoinExchangeAdapter : IExchangeApi
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -11,17 +11,18 @@ public sealed class KucoinExchangeAdapter : IExchangeAdapter<KucoinCryptoRequest
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<ExchangeResponse> GetCryptoPriceAsync(KucoinCryptoRequest request)
+    public static string BaseUrl => "https://api.kucoin.com";
+
+    public async Task<ExchangeResponse> GetCryptoPriceAsync(string cryptoSymbol)
     {
         using var client = _httpClientFactory.CreateClient();
         
-        var uri = new Uri($"https://api.kucoin.com/api/v1/market/stats?symbol={request.CryptoSymbol}");
+        var uri = new Uri($"{BaseUrl}/api/v1/market/stats?symbol={cryptoSymbol}");
         
         var crypto = await client.GetFromJsonAsync<KucoinCryptoData>(uri);
        
         return new ExchangeResponse(
-            request.Name,
-            crypto?.Data?.Symbol ?? request.CryptoSymbol,
+            crypto?.Data?.Symbol ?? cryptoSymbol,
             crypto?.Data?.Last ?? 0M);
     }
 }

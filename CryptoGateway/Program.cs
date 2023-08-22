@@ -1,13 +1,12 @@
-using CryptoGateway.Adapter.Binance;
-using CryptoGateway.Adapter.Kucoin;
+using CryptoGateway.Domain.Contracts;
+using CryptoGateway.Infra.Repositories;
 using CryptoGateway.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<BinanceExchangeAdapter>();
-builder.Services.AddTransient<KucoinExchangeAdapter>();
+builder.Services.AddTransient<ICryptoRepository, CryptoRepository>();
 builder.Services.AddTransient<ICryptoPriceService, CryptoPriceService>();
 
 builder.Services.AddControllers();

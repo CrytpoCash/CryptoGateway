@@ -1,7 +1,4 @@
-using CryptoGateway.Adapter.Binance;
-using CryptoGateway.Adapter.Kucoin;
 using CryptoGateway.Services;
-using CryptoGateway.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoGateway.Controllers;
@@ -13,7 +10,6 @@ public class CryptoPriceController : ControllerBase
     private readonly ILogger<CryptoPriceController> _logger;
     private readonly ICryptoPriceService _cryptoPriceService;
 
-
     public CryptoPriceController(
         ILogger<CryptoPriceController> logger, 
         ICryptoPriceService cryptoPriceService)
@@ -23,9 +19,9 @@ public class CryptoPriceController : ControllerBase
     }
 
     [HttpGet(Name = "GetCryptoPrice")]
-    public IActionResult Get(string symbol)
+    public async Task<IActionResult> Get(string symbol)
     {
-        var response =  _cryptoPriceService.GetCryptoPrice(symbol);
+        var response = await _cryptoPriceService.GetCryptoPriceAsync(symbol);
         
         return Ok(response);
     }

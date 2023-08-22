@@ -4,5 +4,5 @@ namespace CryptoGateway.Services;
 
 public interface ICryptoPriceService
 {
-    IEnumerable<ExchangeResponse> GetCryptoPrice(string symbol);
+    Task<IEnumerable<ExchangeResponse>> GetCryptoPriceAsync(string symbol);
 }

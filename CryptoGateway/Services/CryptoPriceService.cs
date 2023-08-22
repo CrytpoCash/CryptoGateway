@@ -1,33 +1,36 @@
-﻿using CryptoGateway.Adapter.Binance;
-using CryptoGateway.Adapter.Kucoin;
+﻿using CryptoGateway.Domain.Contracts;
+using CryptoGateway.Infra.Factories;
 using CryptoGateway.Shared;
 
 namespace CryptoGateway.Services;
 
 public class CryptoPriceService : ICryptoPriceService
 {
-    private readonly BinanceExchangeAdapter _binanceExchangeAdapter;
-    private readonly KucoinExchangeAdapter _kucoinExchangeAdapter;
+    private readonly ICryptoRepository _cryptoRepository;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public CryptoPriceService(BinanceExchangeAdapter binanceExchangeAdapter, KucoinExchangeAdapter kucoinExchangeAdapter)
+    public CryptoPriceService(ICryptoRepository cryptoRepository, IHttpClientFactory httpClientFactory)
     {
-        _binanceExchangeAdapter = binanceExchangeAdapter;
-        _kucoinExchangeAdapter = kucoinExchangeAdapter;
+        _cryptoRepository = cryptoRepository;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public IEnumerable<ExchangeResponse> GetCryptoPrice(string symbol)
+    public async Task<IEnumerable<ExchangeResponse>> GetCryptoPriceAsync(string symbol)
     {
-        var taskBinance = _binanceExchangeAdapter.GetCryptoPriceAsync(new("Binance", "BTCUSDT"));
-        
-        var taskKucoin = _kucoinExchangeAdapter.GetCryptoPriceAsync(new("Kucoin", "BTC-USDT"));
+        var crypto = _cryptoRepository.GetBySymbol(symbol);
 
-        Task.WaitAll(new Task[]{ taskBinance, taskKucoin });
-        
-        var exchangeResponses = new ExchangeResponse[2]
+        if (crypto is null)
         {
-            taskBinance.Result,
-            taskKucoin.Result
-        };
+            return Enumerable.Empty<ExchangeResponse>();
+        }
+
+        var tasks = crypto.CryptoSymbolExchanges.Select(item =>
+        {
+            var adapter = ExchangeApiAdapterFactory.CreateAdapter(_httpClientFactory, item.Exchange.BaseURL);
+            return adapter.GetCryptoPriceAsync(item.CryptoSymbol);
+        });
+
+        var exchangeResponses = await Task.WhenAll(tasks);
         
         return exchangeResponses;
     }
