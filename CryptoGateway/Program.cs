@@ -1,10 +1,16 @@
+using CryptoGateway;
 using CryptoGateway.Domain.Contracts;
+using CryptoGateway.Infra;
 using CryptoGateway.Infra.Repositories;
 using CryptoGateway.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<CryptoGatewayContext>(
+    options => options.UseSqlite(@"Data Source=TempDB/CryptoGateway.db;"));
+
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<ICryptoRepository, CryptoRepository>();
 builder.Services.AddTransient<ICryptoPriceService, CryptoPriceService>();
@@ -15,6 +21,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.InitializeDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
