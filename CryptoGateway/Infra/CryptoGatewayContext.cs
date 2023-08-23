@@ -9,4 +9,5 @@ public class CryptoGatewayContext : DbContext
         : base(options)
     { }
     
+    public DbSet<Exchange> Exchanges { get; set; }
 }
