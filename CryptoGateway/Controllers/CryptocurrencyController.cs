@@ -33,7 +33,7 @@ public class CryptocurrencyController : ControllerBase
     public async Task<ActionResult<Cryptocurrency>> GetById(Guid id)
     {
         var Cryptocurrency = await _context.Cryptocurrencys
-            .Include(x => x.CryptoSymbolExchanges)
+            .Include(x => x.ExchangeItems)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (Cryptocurrency is null)
@@ -58,7 +58,7 @@ public class CryptocurrencyController : ControllerBase
                 continue;
             }
             
-            cryptocurrency.AddCryptoSymbolExchange(new CryptoSymbolExchange(exchange, item.Symbol));
+            cryptocurrency.AddExchangeItem(new CryptocurrencyExchangeItem(exchange.Id, item.Symbol));
         }
         
         await _context.Cryptocurrencys.AddAsync(cryptocurrency);

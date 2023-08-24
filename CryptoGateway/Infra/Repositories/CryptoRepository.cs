@@ -13,8 +13,8 @@ public class CryptoRepository : ICryptoRepository
         Exchange kucoin = new("Kucoin", "https://api.kucoin.com");
 
         Cryptocurrency bitcoin = new("Bitcoin", "BTC");
-        bitcoin.AddCryptoSymbolExchange(new CryptoSymbolExchange(binance, "BTCUSDT"));
-        bitcoin.AddCryptoSymbolExchange(new CryptoSymbolExchange(kucoin, "BTC-USDT"));
+        bitcoin.AddExchangeItem(new CryptocurrencyExchangeItem(binance.Id, "BTCUSDT"));
+        bitcoin.AddExchangeItem(new CryptocurrencyExchangeItem(kucoin.Id, "BTC-USDT"));
         
         _cryptos = new List<Cryptocurrency>()
         {

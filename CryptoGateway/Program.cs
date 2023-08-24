@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using CryptoGateway;
 using CryptoGateway.Domain.Contracts;
 using CryptoGateway.Infra;
@@ -15,7 +16,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddTransient<ICryptoRepository, CryptoRepository>();
 builder.Services.AddTransient<ICryptoPriceService, CryptoPriceService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

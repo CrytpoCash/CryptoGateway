@@ -24,10 +24,10 @@ public class CryptoPriceService : ICryptoPriceService
             return Enumerable.Empty<ExchangeResponse>();
         }
 
-        var tasks = crypto.CryptoSymbolExchanges.Select(item =>
+        var tasks = crypto.ExchangeItems.Select(item =>
         {
             var adapter = ExchangeApiAdapterFactory.CreateAdapter(_httpClientFactory, item.Exchange.BaseURL);
-            return adapter.GetCryptoPriceAsync(item.CryptoSymbol);
+            return adapter.GetCryptoPriceAsync(item.CryptoSymbolExternal);
         });
 
         var exchangeResponses = await Task.WhenAll(tasks);

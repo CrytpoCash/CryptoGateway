@@ -2,12 +2,12 @@
 
 public sealed class Cryptocurrency
 {
-    private readonly List<CryptoSymbolExchange> _cryptoSymbolExchanges;
+    private readonly List<CryptocurrencyExchangeItem> _exchangeItems;
     
     public Cryptocurrency()
     {
         Id = Guid.NewGuid();
-        _cryptoSymbolExchanges = new List<CryptoSymbolExchange>();
+        _exchangeItems = new List<CryptocurrencyExchangeItem>();
     }
     public Cryptocurrency(string name, string symbol): this()
     {
@@ -19,9 +19,9 @@ public sealed class Cryptocurrency
     public string Name { get; set; }
     public string Symbol { get; set; }
     
-    public IReadOnlyCollection<CryptoSymbolExchange> CryptoSymbolExchanges => _cryptoSymbolExchanges;
-    public void AddCryptoSymbolExchange(CryptoSymbolExchange item)
+    public IReadOnlyCollection<CryptocurrencyExchangeItem> ExchangeItems => _exchangeItems;
+    public void AddExchangeItem(CryptocurrencyExchangeItem item)
     {
-        _cryptoSymbolExchanges.Add(item);
+        _exchangeItems.Add(item);
     }
 }

@@ -8,6 +8,6 @@ public static class ApplicationInitializer
     {
         using var scope = app.Services.CreateScope();
         using var context = scope.ServiceProvider.GetService<CryptoGatewayContext>();
-        context.Database.EnsureCreated();
+        context?.Database.EnsureCreated();
     }
 }
