@@ -30,24 +30,24 @@ public class CryptocurrencyController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<Crypto>> Get(Guid id)
+    public async Task<ActionResult<Cryptocurrency>> GetById(Guid id)
     {
-        var crypto = await _context.Cryptocurrencys
+        var Cryptocurrency = await _context.Cryptocurrencys
             .Include(x => x.CryptoSymbolExchanges)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (crypto is null)
+        if (Cryptocurrency is null)
         {
             return NotFound();
         }
 
-        return crypto;
+        return Cryptocurrency;
     }
     
     [HttpPost()]
     public async Task<IActionResult> Post(CryptocurrencyInputViewModel model)
     {
-        var cryptocurrency = new Crypto(model.Name, model.Symbol);
+        var cryptocurrency = new Cryptocurrency(model.Name, model.Symbol);
 
         foreach (var item in model.Exchanges)
         {
@@ -64,6 +64,6 @@ public class CryptocurrencyController : ControllerBase
         await _context.Cryptocurrencys.AddAsync(cryptocurrency);
         await _context.SaveChangesAsync();
         
-        return CreatedAtAction(nameof(Get), new { id = cryptocurrency.Id }, cryptocurrency);
+        return CreatedAtAction(nameof(GetById), new { id = cryptocurrency.Id }, cryptocurrency);
     }
 }

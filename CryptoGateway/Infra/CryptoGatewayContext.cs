@@ -9,6 +9,6 @@ public class CryptoGatewayContext : DbContext
         : base(options)
     { }
     
-    public DbSet<Crypto> Cryptocurrencys { get; set; }
+    public DbSet<Cryptocurrency> Cryptocurrencys { get; set; }
     public DbSet<Exchange> Exchanges { get; set; }
 }

@@ -4,5 +4,5 @@ namespace CryptoGateway.Domain.Contracts;
 
 public interface ICryptoRepository
 {
-    Crypto? GetBySymbol(string symbol);
+    Cryptocurrency? GetBySymbol(string symbol);
 }

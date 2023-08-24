@@ -1,15 +1,15 @@
 ﻿namespace CryptoGateway.Domain.Entities;
 
-public sealed class Crypto
+public sealed class Cryptocurrency
 {
     private readonly List<CryptoSymbolExchange> _cryptoSymbolExchanges;
     
-    public Crypto()
+    public Cryptocurrency()
     {
         Id = Guid.NewGuid();
         _cryptoSymbolExchanges = new List<CryptoSymbolExchange>();
     }
-    public Crypto(string name, string symbol): this()
+    public Cryptocurrency(string name, string symbol): this()
     {
         Name = name;
         Symbol = symbol;
