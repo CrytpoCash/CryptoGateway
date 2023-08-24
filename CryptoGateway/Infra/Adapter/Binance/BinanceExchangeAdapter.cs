@@ -12,6 +12,7 @@ public sealed class BinanceExchangeAdapter : IExchangeApi
     }
     
     public static string BaseUrl => "https://api.binance.com";
+    public static string ExchangeName => "Binance";
 
     public async Task<ExchangeResponse> GetCryptoPriceAsync(string cryptoSymbol)
     {
@@ -23,6 +24,7 @@ public sealed class BinanceExchangeAdapter : IExchangeApi
        
         return new ExchangeResponse(
             crypto?.Symbol ?? cryptoSymbol,
-            crypto?.AskPrice ?? 0M);
+            (crypto?.AskPrice ?? 0M).ToString("N2"),
+            ExchangeName);
     }
 }

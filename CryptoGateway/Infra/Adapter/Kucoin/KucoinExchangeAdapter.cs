@@ -12,6 +12,7 @@ public sealed class KucoinExchangeAdapter : IExchangeApi
     }
 
     public static string BaseUrl => "https://api.kucoin.com";
+    public static string ExchangeName => "Kucoin";
 
     public async Task<ExchangeResponse> GetCryptoPriceAsync(string cryptoSymbol)
     {
@@ -23,6 +24,7 @@ public sealed class KucoinExchangeAdapter : IExchangeApi
        
         return new ExchangeResponse(
             crypto?.Data?.Symbol ?? cryptoSymbol,
-            crypto?.Data?.Last ?? 0M);
+            (crypto?.Data?.Last ?? 0M).ToString("N2"),
+            ExchangeName);
     }
 }
