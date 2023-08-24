@@ -16,11 +16,7 @@ public class ExchangeControllerIntegrationTests : BaseIntegrationTest
     [Fact]
     public async Task Add_New_Exchange_Success()
     {
-        var model = new ExchangeInputViewModel
-        {
-            Name = "Exchange Test",
-            BaseURL = "https://api.exchange-test.com"
-        };
+        var model = new ExchangeInputViewModel("Exchange Test", "https://api.exchange-test.com");
 
         var response = await Client.PostAsJsonAsync("/exchange", model);
 
