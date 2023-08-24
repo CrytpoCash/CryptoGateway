@@ -1,19 +1,25 @@
-﻿using System.Collections.ObjectModel;
-
-namespace CryptoGateway.Domain.Entities;
+﻿namespace CryptoGateway.Domain.Entities;
 
 public sealed class Crypto
 {
-    private readonly List<CryptoSymbolExchange> _cryptoSymbolExchanges = new();
-    public Crypto(string name, string symbol)
+    private readonly List<CryptoSymbolExchange> _cryptoSymbolExchanges;
+    
+    public Crypto()
+    {
+        Id = Guid.NewGuid();
+        _cryptoSymbolExchanges = new List<CryptoSymbolExchange>();
+    }
+    public Crypto(string name, string symbol): this()
     {
         Name = name;
         Symbol = symbol;
     }
 
-    public string Name { get; private set; }
-    public string Symbol { get; private set; }
-    public ReadOnlyCollection<CryptoSymbolExchange> CryptoSymbolExchanges { get => _cryptoSymbolExchanges.AsReadOnly(); }
+    public Guid Id { get; private set; }
+    public string Name { get; set; }
+    public string Symbol { get; set; }
+    
+    public IReadOnlyCollection<CryptoSymbolExchange> CryptoSymbolExchanges => _cryptoSymbolExchanges;
     public void AddCryptoSymbolExchange(CryptoSymbolExchange item)
     {
         _cryptoSymbolExchanges.Add(item);

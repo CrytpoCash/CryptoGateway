@@ -2,12 +2,18 @@
 
 public sealed class CryptoSymbolExchange
 {
-    public CryptoSymbolExchange(Exchange exchange, string cryptoSymbol)
+    protected CryptoSymbolExchange()
+    {
+        Id = Guid.NewGuid();
+    }
+    
+    public CryptoSymbolExchange(Exchange exchange, string cryptoSymbol): this()
     {
         Exchange = exchange;
         CryptoSymbol = cryptoSymbol;
     }
-    
+
+    public Guid Id { get; private  set; }
     public Exchange Exchange { get; private set; }
     public string CryptoSymbol { get; private set; }
 }
