@@ -6,25 +6,25 @@ namespace CryptoGateway.Services;
 
 public class CryptoPriceService : ICryptoPriceService
 {
-    private readonly ICryptoRepository _cryptoRepository;
+    private readonly ICryptocurrencyRepository _cryptocurrencyRepository;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public CryptoPriceService(ICryptoRepository cryptoRepository, IHttpClientFactory httpClientFactory)
+    public CryptoPriceService(ICryptocurrencyRepository cryptocurrencyRepository, IHttpClientFactory httpClientFactory)
     {
-        _cryptoRepository = cryptoRepository;
+        _cryptocurrencyRepository = cryptocurrencyRepository;
         _httpClientFactory = httpClientFactory;
     }
 
     public async Task<IEnumerable<ExchangeResponse>> GetCryptoPriceAsync(string symbol)
     {
-        var crypto = _cryptoRepository.GetBySymbol(symbol);
+        var cryptocurrency = await _cryptocurrencyRepository.GetBySymbolAsync(symbol);
 
-        if (crypto is null)
+        if (cryptocurrency is null || !cryptocurrency.ExchangeItems.Any()) 
         {
             return Enumerable.Empty<ExchangeResponse>();
         }
 
-        var tasks = crypto.ExchangeItems.Select(item =>
+        var tasks = cryptocurrency.ExchangeItems.Select(item =>
         {
             var adapter = ExchangeApiAdapterFactory.CreateAdapter(_httpClientFactory, item.Exchange.BaseURL);
             return adapter.GetCryptoPriceAsync(item.CryptoSymbolExternal);

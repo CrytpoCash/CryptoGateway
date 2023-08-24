@@ -13,7 +13,7 @@ builder.Services.AddDbContext<CryptoGatewayContext>(
     options => options.UseSqlite(@"Data Source=TempDB/CryptoGateway.db;"));
 
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<ICryptoRepository, CryptoRepository>();
+builder.Services.AddTransient<ICryptocurrencyRepository, CryptocurrencyRepository>();
 builder.Services.AddTransient<ICryptoPriceService, CryptoPriceService>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
