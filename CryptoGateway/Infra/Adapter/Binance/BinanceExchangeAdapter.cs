@@ -4,11 +4,13 @@ namespace CryptoGateway.Infra.Adapter.Binance;
 
 public sealed class BinanceExchangeAdapter : IExchangeApi
 {
+    private readonly ILogger<BinanceExchangeAdapter> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public BinanceExchangeAdapter(IHttpClientFactory httpClientFactory)
+    public BinanceExchangeAdapter(IHttpClientFactory httpClientFactory, ILogger<BinanceExchangeAdapter> logger)
     {
         _httpClientFactory = httpClientFactory;
+        _logger = logger;
     }
     
     public static string BaseUrl => "https://api.binance.com";
@@ -16,15 +18,31 @@ public sealed class BinanceExchangeAdapter : IExchangeApi
 
     public async Task<ExchangeResponse> GetCryptoPriceAsync(string cryptoSymbol)
     {
-        using var client = _httpClientFactory.CreateClient();
+        if (string.IsNullOrWhiteSpace(cryptoSymbol))
+        {
+            throw new ArgumentException("Invalid cryptocurrency.");
+        }
         
-        var uri = new Uri($"{BaseUrl}/api/v3/ticker/24hr?symbol={cryptoSymbol}");
-        
-        var crypto = await client.GetFromJsonAsync<BinanceCryptoResponse>(uri);
-       
-        return new ExchangeResponse(
-            crypto?.Symbol ?? cryptoSymbol,
-            (crypto?.AskPrice ?? 0M).ToString("N2"),
-            ExchangeName);
+        _logger.LogInformation("Getting price of cryptocurrency {Symbol} on exchange {Exchange}",  cryptoSymbol, ExchangeName);
+
+        try
+        {
+            using var client = _httpClientFactory.CreateClient();
+
+            var uri = new Uri($"{BaseUrl}/api/v3/ticker/24hr?symbol={cryptoSymbol}");
+
+            var crypto = await client.GetFromJsonAsync<BinanceCryptoResponse>(uri);
+
+            return new ExchangeResponse(
+                crypto?.Symbol ?? cryptoSymbol,
+                (crypto?.AskPrice ?? 0M).ToString("N2"),
+                ExchangeName);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting price of cryptocurrency {Symbol} on exchange {Exchange}",
+                cryptoSymbol, ExchangeName);
+            throw;
+        }
     }
 }

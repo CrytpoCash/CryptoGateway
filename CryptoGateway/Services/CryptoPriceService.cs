@@ -1,4 +1,5 @@
 ﻿using CryptoGateway.Domain.Contracts;
+using CryptoGateway.Domain.Entities;
 using CryptoGateway.Infra.Factories;
 using CryptoGateway.Shared;
 
@@ -6,13 +7,17 @@ namespace CryptoGateway.Services;
 
 public class CryptoPriceService : ICryptoPriceService
 {
+    private readonly ILogger<CryptoPriceService> _logger;
     private readonly ICryptocurrencyRepository _cryptocurrencyRepository;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IExchangeApiAdapterFactory _exchangeApiAdapterFactory;
 
-    public CryptoPriceService(ICryptocurrencyRepository cryptocurrencyRepository, IHttpClientFactory httpClientFactory)
+    public CryptoPriceService(
+        ICryptocurrencyRepository cryptocurrencyRepository, 
+        IExchangeApiAdapterFactory exchangeApiAdapterFactory, ILogger<CryptoPriceService> logger)
     {
         _cryptocurrencyRepository = cryptocurrencyRepository;
-        _httpClientFactory = httpClientFactory;
+        _exchangeApiAdapterFactory = exchangeApiAdapterFactory;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<ExchangeResponse>> GetCryptoPriceAsync(string symbol)
@@ -24,14 +29,37 @@ public class CryptoPriceService : ICryptoPriceService
             return Enumerable.Empty<ExchangeResponse>();
         }
 
-        var tasks = cryptocurrency.ExchangeItems.Select(item =>
-        {
-            var adapter = ExchangeApiAdapterFactory.CreateAdapter(_httpClientFactory, item.Exchange.BaseURL);
-            return adapter.GetCryptoPriceAsync(item.CryptoSymbolExternal);
-        });
+        var priceFetchTasks = cryptocurrency.ExchangeItems
+            .Select(CreatePriceFetchTask)
+            .ToList();
 
-        var exchangeResponses = await Task.WhenAll(tasks);
-        
-        return exchangeResponses;
+        await SafeWhenAll(priceFetchTasks);
+
+        return FilterSuccessfulResults(priceFetchTasks);
+    }
+
+    private Task<ExchangeResponse> CreatePriceFetchTask(CryptocurrencyExchangeItem item)
+    {
+        var adapter = _exchangeApiAdapterFactory.CreateAdapter(item.Exchange.BaseURL);
+        return adapter.GetCryptoPriceAsync(item.CryptoSymbolExternal);
+    }
+
+    private async Task SafeWhenAll(IEnumerable<Task<ExchangeResponse>> tasks)
+    {
+        try
+        {
+            await Task.WhenAll(tasks);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error occurred while fetching prices: {ex.Message}");
+        }
+    }
+
+    private IEnumerable<ExchangeResponse> FilterSuccessfulResults(IEnumerable<Task<ExchangeResponse>> tasks)
+    {
+        return tasks
+            .Where(task => task.Status != TaskStatus.Faulted)
+            .Select(task => task.Result);
     }
 }

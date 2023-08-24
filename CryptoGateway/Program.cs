@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 using CryptoGateway;
 using CryptoGateway.Domain.Contracts;
 using CryptoGateway.Infra;
+using CryptoGateway.Infra.Adapter.Binance;
+using CryptoGateway.Infra.Adapter.Kucoin;
+using CryptoGateway.Infra.Factories;
 using CryptoGateway.Infra.Repositories;
 using CryptoGateway.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +16,9 @@ builder.Services.AddDbContext<CryptoGatewayContext>(
     options => options.UseSqlite(@"Data Source=TempDB/CryptoGateway.db;"));
 
 builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IExchangeApiAdapterFactory, ExchangeApiAdapterFactory>();
+builder.Services.AddSingleton<BinanceExchangeAdapter>();
+builder.Services.AddSingleton<KucoinExchangeAdapter>();
 builder.Services.AddTransient<ICryptocurrencyRepository, CryptocurrencyRepository>();
 builder.Services.AddTransient<ICryptoPriceService, CryptoPriceService>();
 
