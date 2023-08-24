@@ -21,7 +21,7 @@ public class CryptoPriceController : ControllerBase
     [HttpGet(Name = "GetCryptoPrice")]
     public async Task<IActionResult> Get(string symbol)
     {
-        var response = await _cryptoPriceService.GetCryptoPriceAsync(symbol);
+        var response = await _cryptoPriceService.GetCryptoPriceAsync(symbol.ToUpper());
         
         return Ok(response);
     }
