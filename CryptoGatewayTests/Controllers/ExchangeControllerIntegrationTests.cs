@@ -18,7 +18,7 @@ public class ExchangeControllerIntegrationTests : BaseIntegrationTest
     {
         var model = new ExchangeInputViewModel
         {
-            Nome = "Exchange Test",
+            Name = "Exchange Test",
             BaseURL = "https://api.exchange-test.com"
         };
 

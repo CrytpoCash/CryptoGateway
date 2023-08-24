@@ -45,7 +45,7 @@ public class ExchangeController : ControllerBase
     [HttpPost()]
     public async Task<IActionResult> Post(ExchangeInputViewModel model)
     {
-        var exchange = new Exchange(model.Nome, model.BaseURL);
+        var exchange = new Exchange(model.Name, model.BaseURL);
         
         await _context.Exchanges.AddAsync(exchange);
         await _context.SaveChangesAsync();
@@ -63,7 +63,7 @@ public class ExchangeController : ControllerBase
             return NotFound();
         }
         
-        exchange.Name = model.Nome;
+        exchange.Name = model.Name;
         exchange.BaseURL = model.BaseURL;
 
         await _context.SaveChangesAsync();
