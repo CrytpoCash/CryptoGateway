@@ -10,20 +10,6 @@ public class CryptocurrencyRepository : ICryptocurrencyRepository
     public CryptocurrencyRepository(CryptoGatewayContext context)
     {
         _context = context;
-        
-        /*
-        Exchange binance = new("Binance", "https://api.binance.com");
-        Exchange kucoin = new("Kucoin", "https://api.kucoin.com");
-
-        Cryptocurrency bitcoin = new("Bitcoin", "BTC");
-        bitcoin.AddExchangeItem(new CryptocurrencyExchangeItem(binance.Id, "BTCUSDT"));
-        bitcoin.AddExchangeItem(new CryptocurrencyExchangeItem(kucoin.Id, "BTC-USDT"));
-        
-        _cryptos = new List<Cryptocurrency>()
-        {
-            bitcoin,
-        };
-        */
     }
     
     public async Task<Cryptocurrency?> GetBySymbolAsync(string symbol)
