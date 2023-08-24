@@ -50,7 +50,7 @@ public class ExchangeController : ControllerBase
         await _context.Exchanges.AddAsync(exchange);
         await _context.SaveChangesAsync();
         
-        return CreatedAtAction(nameof(Get), new { id = exchange.Id }, exchange);
+        return CreatedAtAction(nameof(Get), new { id = exchange.Id }, new ExchangeResultViewModel(exchange.Id));
     }
     
     [HttpPut("{id}")]
