@@ -31,13 +31,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.InitializeDatabase();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.InitializeDatabase();
 }
 
 app.UseHttpsRedirection();
