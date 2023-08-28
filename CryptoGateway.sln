@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoGateway.API.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoGateway.Domain", "src\CryptoGateway.Domain\CryptoGateway.Domain.csproj", "{0EA21E8B-F3BC-4E0D-983C-67449BC48BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoGateway.Infra", "src\CriptoGateway.Infra\CriptoGateway.Infra.csproj", "{63E54AD6-7C8C-4DE3-A512-35A19318EBEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoGateway.Infra", "src\CryptoGateway.Infra\CryptoGateway.Infra.csproj", "{63E54AD6-7C8C-4DE3-A512-35A19318EBEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoGateway.Application", "src\CryptoGateway.Application\CryptoGateway.Application.csproj", "{F88F319C-A1EF-4AC3-B976-F9EF07A42DAB}"
 EndProject

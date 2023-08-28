@@ -1,7 +1,7 @@
-﻿using CriptoGateway.Infra.Factories;
-using CryptoGateway.Core.Adapter;
+﻿using CryptoGateway.Core.Adapter;
 using CryptoGateway.Domain.Contracts;
 using CryptoGateway.Domain.Entities;
+using CryptoGateway.Infra.Factories;
 using Microsoft.Extensions.Logging;
 
 namespace CryptoGateway.Application.Services;

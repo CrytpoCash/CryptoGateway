@@ -1,4 +1,4 @@
-using CriptoGateway.Infra;
+using CryptoGateway.Infra;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 

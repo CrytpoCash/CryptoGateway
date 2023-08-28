@@ -2,7 +2,7 @@
 using CryptoGateway.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CriptoGateway.Infra.Repositories;
+namespace CryptoGateway.Infra.Repositories;
 
 public class CryptocurrencyRepository : ICryptocurrencyRepository
 {

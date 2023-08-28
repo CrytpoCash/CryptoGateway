@@ -1,9 +1,9 @@
-﻿using CriptoGateway.Infra.Adapters.Binance;
-using CriptoGateway.Infra.Adapters.Kucoin;
-using CryptoGateway.Core.Adapter;
+﻿using CryptoGateway.Core.Adapter;
+using CryptoGateway.Infra.Adapters.Binance;
+using CryptoGateway.Infra.Adapters.Kucoin;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CriptoGateway.Infra.Factories;
+namespace CryptoGateway.Infra.Factories;
 
 public interface IExchangeApiAdapterFactory
 {

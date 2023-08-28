@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CriptoGateway.Infra\CriptoGateway.Infra.csproj" />
+      <ProjectReference Include="..\CryptoGateway.Infra\CryptoGateway.Infra.csproj" />
       <ProjectReference Include="..\CryptoGateway.Domain\CryptoGateway.Domain.csproj" />
     </ItemGroup>
 

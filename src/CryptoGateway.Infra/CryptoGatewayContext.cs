@@ -1,7 +1,7 @@
 ﻿using CryptoGateway.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CriptoGateway.Infra;
+namespace CryptoGateway.Infra;
 
 public class CryptoGatewayContext : DbContext
 {

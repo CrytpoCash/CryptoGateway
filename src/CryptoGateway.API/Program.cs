@@ -1,12 +1,12 @@
 using System.Text.Json.Serialization;
-using CriptoGateway.Infra;
-using CriptoGateway.Infra.Adapters.Binance;
-using CriptoGateway.Infra.Adapters.Kucoin;
-using CriptoGateway.Infra.Factories;
-using CriptoGateway.Infra.Repositories;
 using CryptoGateway.API;
 using CryptoGateway.Application.Services;
 using CryptoGateway.Domain.Contracts;
+using CryptoGateway.Infra;
+using CryptoGateway.Infra.Adapters.Binance;
+using CryptoGateway.Infra.Adapters.Kucoin;
+using CryptoGateway.Infra.Factories;
+using CryptoGateway.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

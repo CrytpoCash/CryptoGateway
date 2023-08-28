@@ -1,5 +1,5 @@
 ﻿
-namespace CriptoGateway.Infra.Adapters.Kucoin;
+namespace CryptoGateway.Infra.Adapters.Kucoin;
 
 public record KucoinCryptoData(KucoinCryptoResponse Data);
 

@@ -1,6 +1,6 @@
-using CriptoGateway.Infra;
 using CryptoGateway.API.ViewModels;
 using CryptoGateway.Domain.Entities;
+using CryptoGateway.Infra;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

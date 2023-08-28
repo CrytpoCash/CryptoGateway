@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CriptoGateway.Infra.Mappings;
+namespace CryptoGateway.Infra.Mappings;
 
 public class CryptocurrencyMapping : IEntityTypeConfiguration<Cryptocurrency>
 {

@@ -2,7 +2,7 @@
 using CryptoGateway.Core.Adapter;
 using Microsoft.Extensions.Logging;
 
-namespace CriptoGateway.Infra.Adapters.Kucoin;
+namespace CryptoGateway.Infra.Adapters.Kucoin;
 
 public sealed class KucoinExchangeAdapter : IExchangeApi
 {

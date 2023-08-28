@@ -1,5 +1,5 @@
-﻿using CriptoGateway.Infra;
-using CryptoGateway.Domain.Entities;
+﻿using CryptoGateway.Domain.Entities;
+using CryptoGateway.Infra;
 
 namespace CryptoGateway.API;
 

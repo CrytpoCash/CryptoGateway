@@ -2,7 +2,7 @@
 using CryptoGateway.Core.Adapter;
 using Microsoft.Extensions.Logging;
 
-namespace CriptoGateway.Infra.Adapters.Binance;
+namespace CryptoGateway.Infra.Adapters.Binance;
 
 public sealed class BinanceExchangeAdapter : IExchangeApi
 {
