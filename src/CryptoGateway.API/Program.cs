@@ -8,8 +8,13 @@ using CryptoGateway.Infra.Adapters.Kucoin;
 using CryptoGateway.Infra.Factories;
 using CryptoGateway.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddSerilog(new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger());
 
 // Add services to the container.
 builder.Services.AddDbContext<CryptoGatewayContext>(
@@ -32,10 +37,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     app.InitializeDatabase();
 }
 
