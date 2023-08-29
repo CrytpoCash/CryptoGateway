@@ -1,0 +1,11 @@
+﻿version: "3"
+
+services:
+  cryptogateway.api:
+    image: cryptogateway.api
+    container_name: api
+    build:
+      context: .
+      dockerfile: src/CryptoGateway.API/Dockerfile
+    ports:
+      - 8500:80
