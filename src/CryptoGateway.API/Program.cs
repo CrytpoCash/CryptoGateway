@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using CryptoGateway.API;
+using CryptoGateway.API.Extensions;
 using CryptoGateway.Application.Services;
 using CryptoGateway.Domain.Contracts;
 using CryptoGateway.Infra;
@@ -20,7 +21,8 @@ builder.Logging.AddSerilog(new LoggerConfiguration()
 builder.Services.AddDbContext<CryptoGatewayContext>(
     options => options.UseSqlite(@"Data Source=TempDB/CryptoGateway.API.db;"));
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("httpClientAdapter")
+    .AddPolicyHandler(PollyExtensions.GetRetryPolicy());
 builder.Services.AddSingleton<IExchangeApiAdapterFactory, ExchangeApiAdapterFactory>();
 builder.Services.AddSingleton<BinanceExchangeAdapter>();
 builder.Services.AddSingleton<KucoinExchangeAdapter>();
@@ -53,7 +55,4 @@ app.MapControllers();
 
 app.Run();
 
-namespace CryptoGateway.API
-{
-    public partial class Program { }
-}
+public partial class Program { }

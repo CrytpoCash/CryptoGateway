@@ -29,7 +29,7 @@ public sealed class BinanceExchangeAdapter : IExchangeApi
 
         try
         {
-            using var client = _httpClientFactory.CreateClient();
+            using var client = _httpClientFactory.CreateClient("httpClientAdapter");
 
             var uri = new Uri($"{BaseUrl}/api/v3/ticker/24hr?symbol={cryptoSymbol}");
 

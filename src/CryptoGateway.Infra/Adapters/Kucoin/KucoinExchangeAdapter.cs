@@ -29,7 +29,7 @@ public sealed class KucoinExchangeAdapter : IExchangeApi
 
         try
         {
-            using var client = _httpClientFactory.CreateClient();
+            using var client = _httpClientFactory.CreateClient("httpClientAdapter");
         
             var uri = new Uri($"{BaseUrl}/api/v1/market/stats?symbol={cryptoSymbol}");
         
